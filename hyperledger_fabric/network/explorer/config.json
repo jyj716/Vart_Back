@@ -1,0 +1,9 @@
+{
+	"network-configs": {
+		"hyperledger-explorer": {
+			"name": "hyperledger-explorer",
+			"profile": "./connection-profile/hyperledger-explorer.json"
+		}
+	},
+	"license": "Apache-2.0"
+}

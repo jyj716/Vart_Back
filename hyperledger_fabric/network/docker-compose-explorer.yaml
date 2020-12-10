@@ -1,0 +1,49 @@
+# SPDX-License-Identifier: Apache-2.0
+version: '2.0'
+
+volumes:
+  pgdata:
+  walletstore:
+
+networks:
+  mynetwork.com:
+    external:
+      name: net_basic
+
+services:
+  explorerdb.mynetwork.com:
+    image: hyperledger/explorer-db:1.1.2
+    container_name: explorerdb.mynetwork.com
+    hostname: explorerdb.mynetwork.com
+    environment:
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - mynetwork.com
+
+  explorer.mynetwork.com:
+    image: hyperledger/explorer:1.1.2
+    container_name: explorer.mynetwork.com
+    hostname: explorer.mynetwork.com
+    environment:
+      - DATABASE_HOST=explorerdb.mynetwork.com
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWD=password
+      - LOG_LEVEL_APP=debug
+      - LOG_LEVEL_DB=debug
+      - LOG_LEVEL_CONSOLE=info
+      - LOG_CONSO1LE_STDOUT=true
+      - DISCOVERY_AS_LOCALHOST=false
+    volumes:
+      - ./explorer/config.json:/opt/explorer/app/platform/fabric/config.json
+      - ./explorer/connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+      - ./crypto-config:/tmp/crypto
+      - walletstore:/opt/wallet
+    ports:
+      - 8000:8080
+    networks:
+      - mynetwork.com

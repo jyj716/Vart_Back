@@ -1,0 +1,21 @@
+version: '2'
+
+networks:
+  basic:
+
+services:
+  orderer.example.com:
+    container_name: orderer.example.com
+    extends:
+      file: ./base/peer-base.yaml
+      service: orderer-base
+    ports:
+      - 7050:7050
+    volumes:
+        - ./config/:/etc/hyperledger/configtx
+        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/msp/orderer
+        - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/msp/peerOrg1
+        - ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/msp/peerOrg2
+        - ./crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/:/etc/hyperledger/msp/peerOrg3
+    networks:
+      - basic

@@ -1,0 +1,9 @@
+Organizations:
+    - &Org4
+        Name: Org4MSP
+        ID: Org4MSP
+        MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
+        
+        AnchorPeers:
+            - Host: peer0.org4.example.com
+              Port: 10051
